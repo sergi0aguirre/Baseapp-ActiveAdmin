@@ -19,6 +19,7 @@ So merging these tools could give us an app running in a few minutes.
    user:admin@example.com
    pass:password	
 
+   *** All Features are ready to work, except fblogin, u have to setup your app keys by yourself
 
 # Installation
   First clone this repository
