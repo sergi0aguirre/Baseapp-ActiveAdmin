@@ -7,6 +7,19 @@ This is an application that merges two powerful tools,  [Baseapp](https://github
 So merging these tools could give us an app running in a few minutes.
 
 
+# App Demo
+   
+   We have an app runnig at Heroku:
+   	http://baseapp-ativeadmin.herokuapp.com/
+   you could singup and check the baseapp work
+   
+   For ActiveAdmin  go to :
+   http://baseapp-ativeadmin.herokuapp.com/admin
+
+   user:admin@example.com
+   pass:password	
+
+
 # Installation
   First clone this repository
 
