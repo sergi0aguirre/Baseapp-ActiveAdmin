@@ -1,0 +1,1797 @@
+Connecting to database specified by database.yml
+  [1m[36m (69.6ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (2.0ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'schema_migrations'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36m (34.2ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.3ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Migrating to DeviseCreateUsers (20110405113203)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (70.1ms)[0m  CREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.5ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35m (1.3ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (1.2ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_users_on_email on users (0.3ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33121
+ AND a.attnum IN (2)
+
+  [1m[36m (0.7ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110405113203')
+  [1m[36m (1.2ms)[0m  [1mCOMMIT[0m
+Migrating to CreateRoles (20110415105605)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (28.4ms)[0m  [1mCREATE TABLE "roles" ("id" serial primary key, "name" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110415105605')
+  [1m[36m (0.8ms)[0m  [1mCOMMIT[0m
+Migrating to UserHasAndBelongsToManyRoles (20110415110329)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.7ms)[0m  [1mCREATE TABLE "roles_users" ("role_id" integer, "user_id" integer) [0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110415110329')
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+  [1m[36mPK and serial sequence (3.5ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles"'::regclass
+[0m
+  [1m[35m (1.4ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (1.3ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles_users"'::regclass
+[0m
+  [1m[35mPK and custom sequence (1.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"roles_users"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (0.7ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.4ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"users"'::regclass
+
+  [1m[36m (1.0ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_users_on_email on users (0.3ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33121
+ AND a.attnum IN (2)
+
+  [1m[36mColumns for index index_users_on_reset_password_token on users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33121
+ AND a.attnum IN (4)
+[0m
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:48:41 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (103.4ms)
+  Rendered layouts/application/_header.html.erb (2.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.5ms)
+Completed 200 OK in 408ms (Views: 407.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:48:41 -0500
+Compiled bootstrap_and_overrides.css  (604ms)  (pid 73539)
+Compiled application.css  (656ms)  (pid 73539)
+Served asset /application.css - 200 OK (1105ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:48:42 -0500
+Compiled jquery.js  (2ms)  (pid 73539)
+Compiled jquery_ujs.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-transition.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-alert.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-modal.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-dropdown.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-scrollspy.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-tab.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-tooltip.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-popover.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-button.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-collapse.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-carousel.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap/bootstrap-typeahead.js  (0ms)  (pid 73539)
+Compiled twitter/bootstrap.js  (204ms)  (pid 73539)
+Compiled bootstrap.js  (62ms)  (pid 73539)
+Compiled rails.js  (0ms)  (pid 73539)
+Compiled application.js  (415ms)  (pid 73539)
+Served asset /application.js - 200 OK (491ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:49:54 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.3ms)
+  Rendered layouts/application/_header.html.erb (0.9ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 20ms (Views: 19.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:49:54 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:49:54 -0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:49:57 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 5ms (Views: 4.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:49:57 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:49:57 -0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:50:43 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (1.2ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 5ms (Views: 5.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:50:43 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:50:43 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin" for 127.0.0.1 at 2012-09-10 11:50:45 -0500
+Processing by Admin::BaseController#index as HTML
+DEPRECATION WARNING: Passing the format in the template name is deprecated. Please pass render with :formats => [:html] instead. (called from realtime at /Users/saguirre/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/benchmark.rb:310)
+  Rendered public/404.html (0.6ms)
+Filter chain halted as :require_admin rendered or redirected
+Completed 404 Not Found in 28ms (Views: 26.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2012-09-10 11:50:56 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.erb (1.8ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (225.3ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 374ms (Views: 236.7ms | ActiveRecord: 15.9ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:50:57 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:50:57 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2012-09-10 11:51:15 -0500
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"e3hv7t9R89gcqO+8GY208vkcYrluG6Aryw1X9no6aBI=", "user"=>{"email"=>"sergio@ievolutioned.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (20.1ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'sergio@ievolutioned.com' LIMIT 1
+  [1m[36mSQL (66.9ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "last_sign_in_at", "last_sign_in_ip", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["created_at", Mon, 10 Sep 2012 16:51:16 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "sergio@ievolutioned.com"], ["encrypted_password", "$2a$10$BwCGSdHbp3UBHGMM0CukzeRfdczde8BC/27wBW4LIvqVoJMzA9hyi"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["updated_at", Mon, 10 Sep 2012 16:51:16 UTC +00:00]]
+  [1m[35m (98.8ms)[0m  COMMIT
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.8ms)[0m  UPDATE "users" SET "last_sign_in_at" = '2012-09-10 16:51:16.298682', "current_sign_in_at" = '2012-09-10 16:51:16.298682', "last_sign_in_ip" = '127.0.0.1', "current_sign_in_ip" = '127.0.0.1', "sign_in_count" = 1, "updated_at" = '2012-09-10 16:51:16.299888' WHERE "users"."id" = 1
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+Redirected to http://lvh.me:3500/
+Completed 302 Found in 514ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:51:16 -0500
+Processing by PagesController#index as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  Rendered pages/index.html.erb within layouts/application (75.1ms)
+  [1m[36mRole Load (0.5ms)[0m  [1mSELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1[0m
+  Rendered layouts/application/_header.html.erb (78.0ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 158ms (Views: 154.2ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:16 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:16 -0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/users/edit" for 127.0.0.1 at 2012-09-10 11:51:23 -0500
+Processing by Devise::RegistrationsController#edit as HTML
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  Rendered devise/registrations/edit.html.erb within layouts/application (5.1ms)
+  [1m[36mRole Load (0.5ms)[0m  [1mSELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1[0m
+  Rendered layouts/application/_header.html.erb (2.5ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 54ms (Views: 51.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:23 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:23 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2012-09-10 11:51:28 -0500
+Processing by Devise::SessionsController#destroy as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  COMMIT
+Redirected to http://lvh.me:3500/
+Completed 302 Found in 11ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:51:28 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (0.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:28 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:28 -0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2012-09-10 11:51:30 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (0.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.8ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 21ms (Views: 20.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:30 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:30 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/users/auth/facebook" for 127.0.0.1 at 2012-09-10 11:51:31 -0500
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2012-09-10 11:51:36 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (0.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.1ms)
+  Rendered layouts/application/_header.html.erb (1.1ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 38ms (Views: 37.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:36 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:36 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2012-09-10 11:51:43 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DU23wAmwotZMVXp7ikCEdn6zq5Gff4HY1bBluVrelAk=", "user"=>{"email"=>"sergio@ievolutioned.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Sign in"}
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."email" = 'sergio@ievolutioned.com' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mUPDATE "users" SET "current_sign_in_at" = '2012-09-10 16:51:43.828327', "sign_in_count" = 2, "updated_at" = '2012-09-10 16:51:43.829000' WHERE "users"."id" = 1[0m
+  [1m[35m (0.5ms)[0m  COMMIT
+Redirected to http://lvh.me:3500/
+Completed 302 Found in 130ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 11:51:43 -0500
+Processing by PagesController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered pages/index.html.erb within layouts/application (0.9ms)
+  [1m[35mRole Load (0.4ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+  Rendered layouts/application/_header.html.erb (2.0ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 6ms (Views: 5.5ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 11:51:43 -0500
+Served asset /application.css - 304 Not Modified (0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 11:51:43 -0500
+Served asset /application.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin" for 127.0.0.1 at 2012-09-10 11:52:01 -0500
+Processing by Admin::BaseController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mRole Load (0.3ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+DEPRECATION WARNING: Passing the format in the template name is deprecated. Please pass render with :formats => [:html] instead. (called from realtime at /Users/saguirre/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/benchmark.rb:310)
+  Rendered public/404.html (0.1ms)
+Filter chain halted as :require_admin rendered or redirected
+Completed 404 Not Found in 63ms (Views: 38.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/admin" for 127.0.0.1 at 2012-09-10 11:52:06 -0500
+Processing by Admin::BaseController#index as HTML
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  [1m[35mRole Load (0.3ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+DEPRECATION WARNING: Passing the format in the template name is deprecated. Please pass render with :formats => [:html] instead. (called from realtime at /Users/saguirre/.rvm/rubies/ruby-1.9.2-p290/lib/ruby/1.9.1/benchmark.rb:310)
+  Rendered public/404.html (0.0ms)
+Filter chain halted as :require_admin rendered or redirected
+Completed 404 Not Found in 5ms (Views: 1.9ms | ActiveRecord: 0.6ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (0.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to DeviseCreateUsers (20110405113203)
+Migrating to CreateRoles (20110415105605)
+Migrating to UserHasAndBelongsToManyRoles (20110415110329)
+Migrating to DeviseCreateAdminUsers (20120910174117)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (106.5ms)[0m  [1mCREATE TABLE "admin_users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (2.3ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36m (1.4ms)[0m  [1mCREATE UNIQUE INDEX "index_admin_users_on_email" ON "admin_users" ("email")[0m
+  [1m[35m (1.0ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_admin_users_on_email on admin_users (0.3ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33148
+ AND a.attnum IN (2)
+[0m
+  [1m[35m (0.9ms)[0m  CREATE UNIQUE INDEX "index_admin_users_on_reset_password_token" ON "admin_users" ("reset_password_token")
+  [1m[36mAdminUser Exists (0.6ms)[0m  [1mSELECT 1 AS one FROM "admin_users" WHERE "admin_users"."email" = 'admin@example.com' LIMIT 1[0m
+  [1m[35mSQL (34.4ms)[0m  INSERT INTO "admin_users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "last_sign_in_at", "last_sign_in_ip", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"  [["created_at", Mon, 10 Sep 2012 17:42:01 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "admin@example.com"], ["encrypted_password", "$2a$10$1/HMHK/WXqtmx8jKSfXsT.3w5Ty2OLvO8.Aj8fIer26GIOywr3vQW"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["updated_at", Mon, 10 Sep 2012 17:42:01 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120910174117')[0m
+  [1m[35m (0.6ms)[0m  COMMIT
+Migrating to CreateAdminNotes (20120910174133)
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (3.2ms)[0m  CREATE TABLE "admin_notes" ("id" serial primary key, "resource_id" character varying(255) NOT NULL, "resource_type" character varying(255) NOT NULL, "admin_user_id" integer, "admin_user_type" character varying(255), "body" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35m (0.8ms)[0m  CREATE INDEX "index_admin_notes_on_resource_type_and_resource_id" ON "admin_notes" ("resource_type", "resource_id")
+  [1m[36m (0.8ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on admin_notes (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (3,2)
+
+  [1m[36m (0.7ms)[0m  [1mCREATE INDEX "index_admin_notes_on_admin_user_type_and_admin_user_id" ON "admin_notes" ("admin_user_type", "admin_user_id")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120910174133')
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to MoveAdminNotesToComments (20120910174134)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (1.0ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_admin_user_type_and_admin_user_id on admin_notes (0.3ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (5,4)
+
+  [1m[36mColumns for index index_admin_notes_on_resource_type_and_resource_id on admin_notes (0.3ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (3,2)
+[0m
+  [1m[35m (92.4ms)[0m  DROP INDEX "index_admin_notes_on_admin_user_type_and_admin_user_id"
+  [1m[36m (15.1ms)[0m  [1mALTER TABLE "admin_notes" RENAME TO "active_admin_comments"[0m
+  [1m[35m (0.4ms)[0m  ALTER TABLE "active_admin_comments" RENAME COLUMN "admin_user_type" TO "author_type"
+  [1m[36m (0.3ms)[0m  [1mALTER TABLE "active_admin_comments" RENAME COLUMN "admin_user_id" TO "author_id"[0m
+  [1m[35m (12.7ms)[0m  ALTER TABLE "active_admin_comments" ADD COLUMN "namespace" character varying(255)
+  [1m[36m (1.1ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.4ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (3,2)
+
+  [1m[36m (2.5ms)[0m  [1mCREATE INDEX "index_active_admin_comments_on_namespace" ON "active_admin_comments" ("namespace")[0m
+  [1m[35m (1.5ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_active_admin_comments_on_namespace on active_admin_comments (0.3ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (9)
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (3,2)
+
+  [1m[36m (0.7ms)[0m  [1mCREATE INDEX "index_active_admin_comments_on_author_type_and_author_id" ON "active_admin_comments" ("author_type", "author_id")[0m
+  [1m[35m (0.2ms)[0m  UPDATE active_admin_comments SET namespace='admin'
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120910174134')[0m
+  [1m[35m (0.6ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mPK and serial sequence (4.5ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"active_admin_comments"'::regclass
+
+  [1m[36m (3.3ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_active_admin_comments_on_author_type_and_author_id on active_admin_comments (0.4ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (5,4)
+
+  [1m[36mColumns for index index_active_admin_comments_on_namespace on active_admin_comments (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (9)
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.3ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33164
+ AND a.attnum IN (3,2)
+
+  [1m[36mPK and serial sequence (3.6ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"admin_users"'::regclass
+[0m
+  [1m[35m (1.4ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_admin_users_on_email on admin_users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33148
+ AND a.attnum IN (2)
+[0m
+  [1m[35mColumns for index index_admin_users_on_reset_password_token on admin_users (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33148
+ AND a.attnum IN (4)
+
+  [1m[36mPK and serial sequence (1.8ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles"'::regclass
+[0m
+  [1m[35m (0.9ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (1.6ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles_users"'::regclass
+[0m
+  [1m[35mPK and custom sequence (1.0ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"roles_users"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (0.6ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.3ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"users"'::regclass
+
+  [1m[36m (1.0ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_users_on_email on users (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33121
+ AND a.attnum IN (2)
+
+  [1m[36mColumns for index index_users_on_reset_password_token on users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 33121
+ AND a.attnum IN (4)
+[0m
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:42:42 -0500
+Processing by PagesController#index as HTML
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered pages/index.html.erb within layouts/application (120.8ms)
+  [1m[35mRole Load (0.5ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+  Rendered layouts/application/_header.html.erb (121.4ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.4ms)
+Completed 200 OK in 407ms (Views: 400.5ms | ActiveRecord: 5.8ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 12:42:43 -0500
+Compiled active_admin.css  (1823ms)  (pid 79914)
+Compiled application.css  (1884ms)  (pid 79914)
+Served asset /application.css - 200 OK (2001ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 12:42:45 -0500
+Compiled jquery.js  (1ms)  (pid 79914)
+Compiled jquery_ujs.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-transition.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-alert.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-modal.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-dropdown.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-scrollspy.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-tab.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-tooltip.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-popover.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-button.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-collapse.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-carousel.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap/bootstrap-typeahead.js  (0ms)  (pid 79914)
+Compiled twitter/bootstrap.js  (142ms)  (pid 79914)
+Compiled jquery-ui.js  (2ms)  (pid 79914)
+Compiled active_admin/lib/namespace.js  (67ms)  (pid 79914)
+Compiled active_admin/components/jquery.aa.checkbox-toggler.js  (10ms)  (pid 79914)
+Compiled active_admin/components/jquery.aa.dropdown-menu.js  (11ms)  (pid 79914)
+Compiled active_admin/components/jquery.aa.popover.js  (9ms)  (pid 79914)
+Compiled active_admin/components/jquery.aa.table-checkbox-toggler.js  (4ms)  (pid 79914)
+Compiled active_admin/pages/application.js  (1ms)  (pid 79914)
+Compiled active_admin/pages/batch_actions.js  (2ms)  (pid 79914)
+Compiled active_admin/application.js  (843ms)  (pid 79914)
+Compiled active_admin/base.js  (966ms)  (pid 79914)
+Compiled active_admin.js  (974ms)  (pid 79914)
+Compiled application.js  (1313ms)  (pid 79914)
+Served asset /application.js - 200 OK (1662ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:43:24 -0500
+Processing by PagesController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered pages/index.html.erb within layouts/application (2.6ms)
+  [1m[35mRole Load (0.6ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+  Rendered layouts/application/_header.html.erb (4.3ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 37ms (Views: 35.4ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 12:43:24 -0500
+Served asset /application.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 12:43:34 -0500
+Served asset /application.js - 304 Not Modified (2ms)
+
+
+Started GET "/admin" for 127.0.0.1 at 2012-09-10 12:43:36 -0500
+Processing by Admin::DashboardController#index as HTML
+Completed 401 Unauthorized in 2ms
+
+
+Started GET "/admin/login" for 127.0.0.1 at 2012-09-10 12:43:37 -0500
+Processing by ActiveAdmin::Devise::SessionsController#new as HTML
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/devise/shared/_links.erb (1.7ms)
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/devise/sessions/new.html.erb within layouts/active_admin_logged_out (528.8ms)
+Completed 200 OK in 593ms (Views: 581.7ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:43:37 -0500
+Served asset /active_admin.css - 200 OK (53ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:43:37 -0500
+Served asset /active_admin.js - 200 OK (348ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:43:38 -0500
+Compiled active_admin/print.css  (188ms)  (pid 79914)
+Served asset /active_admin/print.css - 200 OK (243ms)
+
+
+Started POST "/admin/login" for 127.0.0.1 at 2012-09-10 12:44:06 -0500
+Processing by ActiveAdmin::Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DU23wAmwotZMVXp7ikCEdn6zq5Gff4HY1bBluVrelAk=", "admin_user"=>{"email"=>"admin@example.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Login"}
+  [1m[36mAdminUser Load (0.6ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."email" = 'admin@example.com' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mUPDATE "admin_users" SET "last_sign_in_at" = '2012-09-10 17:44:06.578151', "current_sign_in_at" = '2012-09-10 17:44:06.578151', "last_sign_in_ip" = '127.0.0.1', "current_sign_in_ip" = '127.0.0.1', "sign_in_count" = 1, "updated_at" = '2012-09-10 17:44:06.579208' WHERE "admin_users"."id" = 1[0m
+  [1m[35m (96.0ms)[0m  COMMIT
+Redirected to http://lvh.me:3500/admin
+Completed 302 Found in 634ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/admin" for 127.0.0.1 at 2012-09-10 12:44:07 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (60.6ms)
+Completed 200 OK in 74ms (Views: 72.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:44:07 -0500
+Served asset /active_admin.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:44:07 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/admin_users" for 127.0.0.1 at 2012-09-10 12:44:26 -0500
+Processing by Admin::AdminUsersController#index as HTML
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "admin_users" LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "admin_users" 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "admin_users" LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35mAdminUser Load (1.2ms)[0m  SELECT "admin_users".* FROM "admin_users" ORDER BY "admin_users"."id" desc LIMIT 30 OFFSET 0
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (251.0ms)
+Completed 200 OK in 280ms (Views: 274.5ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:44:26 -0500
+Served asset /active_admin.css - 304 Not Modified (5ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:44:36 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/orderable.png" for 127.0.0.1 at 2012-09-10 12:44:36 -0500
+Served asset /active_admin/orderable.png - 200 OK (60ms)
+
+
+Started GET "/admin/dashboard" for 127.0.0.1 at 2012-09-10 12:51:50 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[36mAdminUser Load (0.2ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (5.5ms)
+Completed 200 OK in 139ms (Views: 51.5ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:51:52 -0500
+Served asset /active_admin.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:52:02 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:52:12 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+
+
+Started GET "/admin/dashboard" for 127.0.0.1 at 2012-09-10 12:56:36 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (6.9ms)
+Completed 200 OK in 247ms (Views: 40.7ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:56:37 -0500
+Served asset /active_admin.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:56:37 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:56:37 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/users" for 127.0.0.1 at 2012-09-10 12:56:43 -0500
+Processing by Admin::UsersController#index as HTML
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "users" [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users" ORDER BY "users"."id" desc LIMIT 30 OFFSET 0[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (445.1ms)
+Completed 200 OK in 492ms (Views: 462.3ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:56:44 -0500
+Served asset /active_admin.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:56:54 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/datepicker/datepicker-input-icon.png" for 127.0.0.1 at 2012-09-10 12:56:54 -0500
+Served asset /active_admin/datepicker/datepicker-input-icon.png - 200 OK (160ms)
+
+
+Started GET "/assets/active_admin/datepicker/datepicker-nipple.png" for 127.0.0.1 at 2012-09-10 12:56:54 -0500
+Served asset /active_admin/datepicker/datepicker-nipple.png - 200 OK (63ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:56:54 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:57:01 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.4ms)
+  Rendered layouts/application/_header.html.erb (1.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 66ms (Views: 65.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 12:57:01 -0500
+Served asset /application.css - 200 OK (6ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 12:57:01 -0500
+Served asset /application.js - 200 OK (3ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2012-09-10 12:57:08 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (1.7ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (16.2ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 40ms (Views: 39.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users/sign_in" for 127.0.0.1 at 2012-09-10 12:57:14 -0500
+Processing by Devise::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"CxMxxVIhhByb4Wk+6LyayVTNA7LmN5jCtfrFLrjRIhQ=", "user"=>{"email"=>"sergio@ievolutioned.com", "password"=>"[FILTERED]", "remember_me"=>"0"}, "commit"=>"Sign in"}
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'sergio@ievolutioned.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  UPDATE "users" SET "last_sign_in_at" = '2012-09-10 16:51:43.828327', "current_sign_in_at" = '2012-09-10 17:57:14.970186', "sign_in_count" = 3, "updated_at" = '2012-09-10 17:57:14.971505' WHERE "users"."id" = 1
+  [1m[36m (55.7ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3500/
+Completed 302 Found in 304ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:57:15 -0500
+Processing by PagesController#index as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  Rendered pages/index.html.erb within layouts/application (1.2ms)
+  [1m[36mRole Load (0.3ms)[0m  [1mSELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1[0m
+  Rendered layouts/application/_header.html.erb (76.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 82ms (Views: 78.1ms | ActiveRecord: 4.1ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2012-09-10 12:57:18 -0500
+Processing by Devise::SessionsController#destroy as HTML
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (6.8ms)[0m  COMMIT
+Redirected to http://localhost:3500/
+Completed 302 Found in 144ms (ActiveRecord: 7.5ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:57:18 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 5ms (Views: 4.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_in" for 127.0.0.1 at 2012-09-10 12:57:21 -0500
+Processing by Devise::SessionsController#new as HTML
+  Rendered devise/shared/_links.erb (0.6ms)
+  Rendered devise/sessions/new.html.erb within layouts/application (3.5ms)
+  Rendered layouts/application/_header.html.erb (0.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 10ms (Views: 9.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2012-09-10 12:57:22 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.erb (1.1ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (5.4ms)
+  Rendered layouts/application/_header.html.erb (0.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 30ms (Views: 29.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2012-09-10 12:57:36 -0500
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"ML982enzkDsnZHjqAETrLUdk6O1TKtsDdcpp+p67wTs=", "user"=>{"email"=>"sergio2@ievolutioned.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'sergio2@ievolutioned.com' LIMIT 1
+  [1m[36mSQL (24.7ms)[0m  [1mINSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "last_sign_in_at", "last_sign_in_ip", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["created_at", Mon, 10 Sep 2012 17:57:37 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "sergio2@ievolutioned.com"], ["encrypted_password", "$2a$10$fEQaBIzLHoQOfokvg1QOmOjmDSjO417PaP2O/YFXt6IYgRaFEXjPO"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["updated_at", Mon, 10 Sep 2012 17:57:37 UTC +00:00]]
+  [1m[35m (0.7ms)[0m  COMMIT
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  UPDATE "users" SET "last_sign_in_at" = '2012-09-10 17:57:37.072361', "current_sign_in_at" = '2012-09-10 17:57:37.072361', "last_sign_in_ip" = '127.0.0.1', "current_sign_in_ip" = '127.0.0.1', "sign_in_count" = 1, "updated_at" = '2012-09-10 17:57:37.072844' WHERE "users"."id" = 2
+  [1m[36m (67.1ms)[0m  [1mCOMMIT[0m
+Redirected to http://localhost:3500/
+Completed 302 Found in 423ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:57:37 -0500
+Processing by PagesController#index as HTML
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1
+  Rendered pages/index.html.erb within layouts/application (1.3ms)
+  [1m[36mRole Load (0.4ms)[0m  [1mSELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 2 AND "roles"."name" = 'admin' LIMIT 1[0m
+  Rendered layouts/application/_header.html.erb (2.0ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 7ms (Views: 6.3ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2012-09-10 12:57:39 -0500
+Processing by Devise::SessionsController#destroy as HTML
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 2 LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  COMMIT
+Redirected to http://localhost:3500/
+Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 12:57:39 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 5ms (Views: 4.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/admin/users" for 127.0.0.1 at 2012-09-10 12:57:42 -0500
+Processing by Admin::UsersController#index as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  [1m[35m (0.7ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "users" [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" ORDER BY "users"."id" desc LIMIT 30 OFFSET 0[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (243.6ms)
+Completed 200 OK in 248ms (Views: 244.8ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:57:43 -0500
+Served asset /active_admin.css - 304 Not Modified (3ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:57:53 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:57:56 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/users?utf8=%E2%9C%93&q%5Bemail_contains%5D=sergio&q%5Bencrypted_password_contains%5D=&q%5Breset_password_token_contains%5D=&q%5Breset_password_sent_at_gte%5D=&q%5Breset_password_sent_at_lte%5D=&q%5Bremember_created_at_gte%5D=&q%5Bremember_created_at_lte%5D=&q%5Bcurrent_sign_in_at_gte%5D=&q%5Bcurrent_sign_in_at_lte%5D=&q%5Blast_sign_in_at_gte%5D=&q%5Blast_sign_in_at_lte%5D=&q%5Bcurrent_sign_in_ip_contains%5D=&q%5Blast_sign_in_ip_contains%5D=&q%5Bcreated_at_gte%5D=&q%5Bcreated_at_lte%5D=&q%5Bupdated_at_gte%5D=&q%5Bupdated_at_lte%5D=&commit=Filter&order=id_desc" for 127.0.0.1 at 2012-09-10 12:58:05 -0500
+Processing by Admin::UsersController#index as HTML
+  Parameters: {"utf8"=>"✓", "q"=>{"email_contains"=>"sergio", "encrypted_password_contains"=>"[FILTERED]", "reset_password_token_contains"=>"[FILTERED]", "reset_password_sent_at_gte"=>"[FILTERED]", "reset_password_sent_at_lte"=>"[FILTERED]", "remember_created_at_gte"=>"", "remember_created_at_lte"=>"", "current_sign_in_at_gte"=>"", "current_sign_in_at_lte"=>"", "last_sign_in_at_gte"=>"", "last_sign_in_at_lte"=>"", "current_sign_in_ip_contains"=>"", "last_sign_in_ip_contains"=>"", "created_at_gte"=>"", "created_at_lte"=>"", "updated_at_gte"=>"", "updated_at_lte"=>""}, "commit"=>"Filter", "order"=>"id_desc"}
+  [1m[35mAdminUser Load (0.5ms)[0m  SELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" WHERE ("users"."email" ILIKE '%sergio%') LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "users" WHERE ("users"."email" ILIKE '%sergio%')
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" WHERE ("users"."email" ILIKE '%sergio%') LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE ("users"."email" ILIKE '%sergio%') ORDER BY "users"."id" desc LIMIT 30 OFFSET 0
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (287.9ms)
+Completed 200 OK in 365ms (Views: 289.3ms | ActiveRecord: 1.7ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:58:06 -0500
+Served asset /active_admin.css - 304 Not Modified (4ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:58:16 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:58:26 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/users/2/edit" for 127.0.0.1 at 2012-09-10 12:58:56 -0500
+Processing by Admin::UsersController#edit as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mAdminUser Load (0.5ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1  [["id", "2"]]
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT 1[0m  [["id", 2]]
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/edit.html.arb (252.4ms)
+Completed 200 OK in 325ms (Views: 272.2ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:58:57 -0500
+Served asset /active_admin.css - 304 Not Modified (4ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:59:07 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/admin/users" for 127.0.0.1 at 2012-09-10 12:59:15 -0500
+Processing by Admin::UsersController#index as HTML
+  [1m[35mAdminUser Load (0.6ms)[0m  SELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1
+  [1m[36m (0.8ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35m (0.5ms)[0m  SELECT COUNT(*) FROM "users" 
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count [0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" ORDER BY "users"."id" desc LIMIT 30 OFFSET 0
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (258.7ms)
+Completed 200 OK in 265ms (Views: 260.6ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:59:17 -0500
+Served asset /active_admin.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:59:17 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 12:59:17 -0500
+Served asset /active_admin/print.css - 200 OK (0ms)
+
+
+Started GET "/admin/dashboard" for 127.0.0.1 at 2012-09-10 12:59:19 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (5.3ms)
+Completed 200 OK in 9ms (Views: 7.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 12:59:29 -0500
+Served asset /active_admin.css - 304 Not Modified (6ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 12:59:29 -0500
+Served asset /active_admin.js - 304 Not Modified (0ms)
+
+
+Started GET "/admin/dashboard" for 127.0.0.1 at 2012-09-10 13:00:01 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[35mAdminUser Load (0.4ms)[0m  SELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (6.2ms)
+Completed 200 OK in 10ms (Views: 8.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 13:00:01 -0500
+Served asset /active_admin.css - 304 Not Modified (4ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 13:00:01 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 13:00:01 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+
+
+Started GET "/admin/dashboard" for 127.0.0.1 at 2012-09-10 13:00:04 -0500
+Processing by Admin::DashboardController#index as HTML
+  [1m[36mAdminUser Load (0.3ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/page/index.html.arb (7.0ms)
+Completed 200 OK in 10ms (Views: 9.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 13:00:04 -0500
+Served asset /active_admin.css - 304 Not Modified (22ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 13:00:04 -0500
+Served asset /active_admin.js - 304 Not Modified (1ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 13:00:04 -0500
+Served asset /active_admin/print.css - 304 Not Modified (0ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-10 13:06:18 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (34.4ms)
+  Rendered layouts/application/_header.html.erb (1.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.5ms)
+Completed 200 OK in 271ms (Views: 270.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-10 13:06:19 -0500
+Served asset /application.css - 304 Not Modified (128ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-10 13:06:20 -0500
+Served asset /application.js - 304 Not Modified (395ms)
+
+
+Started GET "/admin/users" for 127.0.0.1 at 2012-09-10 13:07:37 -0500
+Processing by Admin::UsersController#index as HTML
+  [1m[36mAdminUser Load (0.6ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  [1m[35m (0.6ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "users" [0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT COUNT(count_column) FROM (SELECT 1 AS count_column FROM "users" LIMIT 30 OFFSET 0) subquery_for_count 
+  [1m[36mUser Load (0.6ms)[0m  [1mSELECT "users".* FROM "users" ORDER BY "users"."id" desc LIMIT 30 OFFSET 0[0m
+  Rendered vendor/bundle/ruby/1.9.1/gems/activeadmin-0.5.0/app/views/active_admin/resource/index.html.arb (759.1ms)
+Completed 200 OK in 919ms (Views: 771.6ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/assets/active_admin.css" for 127.0.0.1 at 2012-09-10 13:07:48 -0500
+Served asset /active_admin.css - 304 Not Modified (41ms)
+
+
+Started GET "/assets/active_admin.js" for 127.0.0.1 at 2012-09-10 13:07:48 -0500
+Served asset /active_admin.js - 304 Not Modified (117ms)
+
+
+Started GET "/assets/active_admin/print.css" for 127.0.0.1 at 2012-09-10 13:07:58 -0500
+Served asset /active_admin/print.css - 304 Not Modified (46ms)
+Connecting to database specified by database.yml
+  [1m[36m (1048.6ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (118.0ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'schema_migrations'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36m (62.8ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.7ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Migrating to DeviseCreateUsers (20110405113203)
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (421.7ms)[0m  CREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.8ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35m (1.4ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" ("email")
+  [1m[36m (0.8ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_users_on_email on users (0.3ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34136
+ AND a.attnum IN (2)
+
+  [1m[36m (27.3ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" ("reset_password_token")[0m
+  [1m[35m (0.6ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110405113203')
+  [1m[36m (9.1ms)[0m  [1mCOMMIT[0m
+Migrating to CreateRoles (20110415105605)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (21.2ms)[0m  [1mCREATE TABLE "roles" ("id" serial primary key, "name" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110415105605')
+  [1m[36m (0.5ms)[0m  [1mCOMMIT[0m
+Migrating to UserHasAndBelongsToManyRoles (20110415110329)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (23.6ms)[0m  [1mCREATE TABLE "roles_users" ("role_id" integer, "user_id" integer) [0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20110415110329')
+  [1m[36m (0.6ms)[0m  [1mCOMMIT[0m
+Migrating to DeviseCreateAdminUsers (20120910174117)
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (17.4ms)[0m  [1mCREATE TABLE "admin_users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) [0m
+  [1m[35m (0.8ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36m (0.7ms)[0m  [1mCREATE UNIQUE INDEX "index_admin_users_on_email" ON "admin_users" ("email")[0m
+  [1m[35m (0.8ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_admin_users_on_email on admin_users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34163
+ AND a.attnum IN (2)
+[0m
+  [1m[35m (0.9ms)[0m  CREATE UNIQUE INDEX "index_admin_users_on_reset_password_token" ON "admin_users" ("reset_password_token")
+  [1m[36mAdminUser Exists (0.6ms)[0m  [1mSELECT 1 AS one FROM "admin_users" WHERE "admin_users"."email" = 'admin@example.com' LIMIT 1[0m
+  [1m[35mSQL (66.5ms)[0m  INSERT INTO "admin_users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "last_sign_in_at", "last_sign_in_ip", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"  [["created_at", Thu, 20 Sep 2012 17:15:28 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "admin@example.com"], ["encrypted_password", "$2a$10$rIlC38/lJUX4IubQFEKbPeJ9zqnm15owzSosr3VzCMJyXPR9tiiFS"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["updated_at", Thu, 20 Sep 2012 17:15:28 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120910174117')[0m
+  [1m[35m (0.8ms)[0m  COMMIT
+Migrating to CreateAdminNotes (20120910174133)
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (4.2ms)[0m  CREATE TABLE "admin_notes" ("id" serial primary key, "resource_id" character varying(255) NOT NULL, "resource_type" character varying(255) NOT NULL, "admin_user_id" integer, "admin_user_type" character varying(255), "body" text, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL) 
+  [1m[36m (0.7ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35m (0.8ms)[0m  CREATE INDEX "index_admin_notes_on_resource_type_and_resource_id" ON "admin_notes" ("resource_type", "resource_id")
+  [1m[36m (0.7ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on admin_notes (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (3,2)
+
+  [1m[36m (0.6ms)[0m  [1mCREATE INDEX "index_admin_notes_on_admin_user_type_and_admin_user_id" ON "admin_notes" ("admin_user_type", "admin_user_id")[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20120910174133')
+  [1m[36m (0.7ms)[0m  [1mCOMMIT[0m
+Migrating to MoveAdminNotesToComments (20120910174134)
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.9ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_notes'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_admin_user_type_and_admin_user_id on admin_notes (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (5,4)
+
+  [1m[36mColumns for index index_admin_notes_on_resource_type_and_resource_id on admin_notes (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (3,2)
+[0m
+  [1m[35m (110.5ms)[0m  DROP INDEX "index_admin_notes_on_admin_user_type_and_admin_user_id"
+  [1m[36m (0.9ms)[0m  [1mALTER TABLE "admin_notes" RENAME TO "active_admin_comments"[0m
+  [1m[35m (0.1ms)[0m  ALTER TABLE "active_admin_comments" RENAME COLUMN "admin_user_type" TO "author_type"
+  [1m[36m (0.1ms)[0m  [1mALTER TABLE "active_admin_comments" RENAME COLUMN "admin_user_id" TO "author_id"[0m
+  [1m[35m (0.2ms)[0m  ALTER TABLE "active_admin_comments" ADD COLUMN "namespace" character varying(255)
+  [1m[36m (0.9ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (3,2)
+
+  [1m[36m (0.9ms)[0m  [1mCREATE INDEX "index_active_admin_comments_on_namespace" ON "active_admin_comments" ("namespace")[0m
+  [1m[35m (0.7ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_active_admin_comments_on_namespace on active_admin_comments (0.1ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (9)
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (3,2)
+
+  [1m[36m (0.7ms)[0m  [1mCREATE INDEX "index_active_admin_comments_on_author_type_and_author_id" ON "active_admin_comments" ("author_type", "author_id")[0m
+  [1m[35m (0.4ms)[0m  UPDATE active_admin_comments SET namespace='admin'
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20120910174134')[0m
+  [1m[35m (1.6ms)[0m  COMMIT
+  [1m[36m (0.3ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+  [1m[35mPK and serial sequence (58.7ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"active_admin_comments"'::regclass
+
+  [1m[36m (1.9ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'active_admin_comments'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_active_admin_comments_on_author_type_and_author_id on active_admin_comments (0.4ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (5,4)
+
+  [1m[36mColumns for index index_active_admin_comments_on_namespace on active_admin_comments (0.1ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (9)
+[0m
+  [1m[35mColumns for index index_admin_notes_on_resource_type_and_resource_id on active_admin_comments (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34179
+ AND a.attnum IN (3,2)
+
+  [1m[36mPK and serial sequence (1.5ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"admin_users"'::regclass
+[0m
+  [1m[35m (0.8ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'admin_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mColumns for index index_admin_users_on_email on admin_users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34163
+ AND a.attnum IN (2)
+[0m
+  [1m[35mColumns for index index_admin_users_on_reset_password_token on admin_users (0.1ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34163
+ AND a.attnum IN (4)
+
+  [1m[36mPK and serial sequence (1.3ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles"'::regclass
+[0m
+  [1m[35m (0.6ms)[0m   SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+
+  [1m[36mPK and serial sequence (1.4ms)[0m  [1m SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"roles_users"'::regclass
+[0m
+  [1m[35mPK and custom sequence (77.5ms)[0m   SELECT attr.attname,
+ CASE
+ WHEN split_part(def.adsrc, '''', 2) ~ '.' THEN
+ substr(split_part(def.adsrc, '''', 2),
+ strpos(split_part(def.adsrc, '''', 2), '.')+1)
+ ELSE split_part(def.adsrc, '''', 2)
+ END
+ FROM pg_class t
+ JOIN pg_attribute attr ON (t.oid = attrelid)
+ JOIN pg_attrdef def ON (adrelid = attrelid AND adnum = attnum)
+ JOIN pg_constraint cons ON (conrelid = adrelid AND adnum = conkey[1])
+ WHERE t.oid = '"roles_users"'::regclass
+ AND cons.contype = 'p'
+ AND def.adsrc ~* 'nextval'
+
+  [1m[36m (0.7ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'roles_users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mPK and serial sequence (1.3ms)[0m   SELECT attr.attname, seq.relname
+ FROM pg_class seq,
+ pg_attribute attr,
+ pg_depend dep,
+ pg_namespace name,
+ pg_constraint cons
+ WHERE seq.oid = dep.objid
+ AND seq.relkind = 'S'
+ AND attr.attrelid = dep.refobjid
+ AND attr.attnum = dep.refobjsubid
+ AND attr.attrelid = cons.conrelid
+ AND attr.attnum = cons.conkey[1]
+ AND cons.contype = 'p'
+ AND dep.refobjid = '"users"'::regclass
+
+  [1m[36m (0.7ms)[0m  [1m SELECT distinct i.relname, d.indisunique, d.indkey, pg_get_indexdef(d.indexrelid), t.oid
+ FROM pg_class t
+ INNER JOIN pg_index d ON t.oid = d.indrelid
+ INNER JOIN pg_class i ON d.indexrelid = i.oid
+ WHERE i.relkind = 'i'
+ AND d.indisprimary = 'f'
+ AND t.relname = 'users'
+ AND i.relnamespace IN (SELECT oid FROM pg_namespace WHERE nspname = ANY (current_schemas(false)) )
+ ORDER BY i.relname
+[0m
+  [1m[35mColumns for index index_users_on_email on users (0.2ms)[0m   SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34136
+ AND a.attnum IN (2)
+
+  [1m[36mColumns for index index_users_on_reset_password_token on users (0.2ms)[0m  [1m SELECT a.attnum, a.attname
+ FROM pg_attribute a
+ WHERE a.attrelid = 34136
+ AND a.attnum IN (4)
+[0m
+Connecting to database specified by database.yml
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-20 12:17:21 -0500
+Processing by PagesController#index as HTML
+  [1m[36mUser Load (29.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered pages/index.html.erb within layouts/application (398.4ms)
+  Rendered layouts/application/_header.html.erb (2.2ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.5ms)
+Completed 200 OK in 1693ms (Views: 1662.8ms | ActiveRecord: 30.2ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:17:23 -0500
+Compiled active_admin.css  (1907ms)  (pid 32800)
+Compiled application.css  (1ms)  (pid 32800)
+Served asset /application.css - 200 OK (2175ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:17:25 -0500
+Compiled jquery.js  (1ms)  (pid 32800)
+Compiled jquery_ujs.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-transition.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-alert.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-modal.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-dropdown.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-scrollspy.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-tab.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-tooltip.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-popover.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-button.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-collapse.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-carousel.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap/bootstrap-typeahead.js  (0ms)  (pid 32800)
+Compiled twitter/bootstrap.js  (183ms)  (pid 32800)
+Compiled jquery-ui.js  (2ms)  (pid 32800)
+Compiled active_admin/lib/namespace.js  (86ms)  (pid 32800)
+Compiled active_admin/components/jquery.aa.checkbox-toggler.js  (12ms)  (pid 32800)
+Compiled active_admin/components/jquery.aa.dropdown-menu.js  (11ms)  (pid 32800)
+Compiled active_admin/components/jquery.aa.popover.js  (8ms)  (pid 32800)
+Compiled active_admin/components/jquery.aa.table-checkbox-toggler.js  (4ms)  (pid 32800)
+Compiled active_admin/pages/application.js  (1ms)  (pid 32800)
+Compiled active_admin/pages/batch_actions.js  (4ms)  (pid 32800)
+Compiled active_admin/application.js  (199ms)  (pid 32800)
+Compiled active_admin/base.js  (311ms)  (pid 32800)
+Compiled active_admin.js  (317ms)  (pid 32800)
+Compiled application.js  (717ms)  (pid 32800)
+Served asset /application.js - 200 OK (785ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-20 12:19:56 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.6ms)
+  Rendered layouts/application/_header.html.erb (1.1ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 49ms (Views: 49.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:19:57 -0500
+Served asset /application.css - 304 Not Modified (24ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:19:57 -0500
+Served asset /application.js - 304 Not Modified (3ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-20 12:21:55 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (10.4ms)
+  Rendered layouts/application/_header.html.erb (2.6ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 99ms (Views: 98.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:21:55 -0500
+Served asset /application.js - 304 Not Modified (30ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:21:56 -0500
+Served asset /application.css - 304 Not Modified (25ms)
+
+
+Started GET "/users/sign_up" for 127.0.0.1 at 2012-09-20 12:21:58 -0500
+Processing by Devise::RegistrationsController#new as HTML
+  Rendered devise/shared/_links.erb (1.7ms)
+  Rendered devise/registrations/new.html.erb within layouts/application (452.6ms)
+  Rendered layouts/application/_header.html.erb (0.7ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.0ms)
+Completed 200 OK in 553ms (Views: 481.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:21:59 -0500
+Served asset /application.css - 304 Not Modified (5ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:21:59 -0500
+Served asset /application.js - 304 Not Modified (3ms)
+
+
+Started POST "/users" for 127.0.0.1 at 2012-09-20 12:22:07 -0500
+Processing by Devise::RegistrationsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"DaY2uWBOAkQ17gEsYqEpyp5cEnbk4+h+fVLbB3b82vc=", "user"=>{"email"=>"sergio@ievolutioned.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}, "commit"=>"Sign up"}
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (13.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'sergio@ievolutioned.com' LIMIT 1[0m
+  [1m[35mSQL (63.9ms)[0m  INSERT INTO "users" ("created_at", "current_sign_in_at", "current_sign_in_ip", "email", "encrypted_password", "last_sign_in_at", "last_sign_in_ip", "remember_created_at", "reset_password_sent_at", "reset_password_token", "sign_in_count", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"  [["created_at", Thu, 20 Sep 2012 17:22:08 UTC +00:00], ["current_sign_in_at", nil], ["current_sign_in_ip", nil], ["email", "sergio@ievolutioned.com"], ["encrypted_password", "$2a$10$HbpumDw9GlPc4O8Z/RW2b.XxXjQEglm5mHW5B.oE5T.Cv76Q9xROa"], ["last_sign_in_at", nil], ["last_sign_in_ip", nil], ["remember_created_at", nil], ["reset_password_sent_at", nil], ["reset_password_token", nil], ["sign_in_count", 0], ["updated_at", Thu, 20 Sep 2012 17:22:08 UTC +00:00]]
+  [1m[36m (106.4ms)[0m  [1mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.6ms)[0m  [1mUPDATE "users" SET "last_sign_in_at" = '2012-09-20 17:22:08.419824', "current_sign_in_at" = '2012-09-20 17:22:08.419824', "last_sign_in_ip" = '127.0.0.1', "current_sign_in_ip" = '127.0.0.1', "sign_in_count" = 1, "updated_at" = '2012-09-20 17:22:08.420755' WHERE "users"."id" = 1[0m
+  [1m[35m (0.4ms)[0m  COMMIT
+Redirected to http://localhost:37000/
+Completed 302 Found in 590ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-20 12:22:08 -0500
+Processing by PagesController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1[0m
+  Rendered pages/index.html.erb within layouts/application (1.3ms)
+  [1m[35mRole Load (0.5ms)[0m  SELECT "roles".* FROM "roles" INNER JOIN "roles_users" ON "roles"."id" = "roles_users"."role_id" WHERE "roles_users"."user_id" = 1 AND "roles"."name" = 'admin' LIMIT 1
+  Rendered layouts/application/_header.html.erb (439.6ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 446ms (Views: 441.8ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:22:09 -0500
+Served asset /application.css - 304 Not Modified (8ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:22:09 -0500
+Served asset /application.js - 304 Not Modified (1ms)
+
+
+Started GET "/users/sign_out" for 127.0.0.1 at 2012-09-20 12:22:13 -0500
+Processing by Devise::SessionsController#destroy as HTML
+  [1m[36mAdminUser Load (0.4ms)[0m  [1mSELECT "admin_users".* FROM "admin_users" WHERE "admin_users"."id" = 1 LIMIT 1[0m
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  COMMIT
+Redirected to http://localhost:37000/
+Completed 302 Found in 98ms (ActiveRecord: 1.7ms)
+
+
+Started GET "/" for 127.0.0.1 at 2012-09-20 12:22:13 -0500
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/application/_header.html.erb (0.8ms)
+  Rendered layouts/application/_flash_messages.html.erb (0.1ms)
+Completed 200 OK in 5ms (Views: 5.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/application.css" for 127.0.0.1 at 2012-09-20 12:22:13 -0500
+Served asset /application.css - 304 Not Modified (5ms)
+
+
+Started GET "/assets/application.js" for 127.0.0.1 at 2012-09-20 12:22:13 -0500
+Served asset /application.js - 304 Not Modified (3ms)

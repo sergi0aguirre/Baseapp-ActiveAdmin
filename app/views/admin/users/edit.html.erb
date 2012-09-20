@@ -1,0 +1,14 @@
+<h1>Editing user</h1>
+
+<%= form_for [:admin, @user], :html => { :class => "well" } do |f| -%>
+
+  <%= f.error_messages %>
+
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+
+  </br>
+
+  <%= f.submit "Update", :class => "btn" %>
+
+<% end -%>
